@@ -1,12 +1,14 @@
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { add, remove, increment, decrement } from "../redux/Slices/CartSlice";
-import { FaShoppingCart, FaPlus, FaMinus } from "react-icons/fa";
+import { FaShoppingCart, FaPlus, FaMinus, FaLeaf } from "react-icons/fa";
+import { useEcoMode } from "./EcoModeContext";
 
 const Product = ({post}) => {
 
   const {cart} = useSelector((state) => state);
   const dispatch = useDispatch();
+  const { ecoMode } = useEcoMode();
 
   const addToCart = () => {
     dispatch(add(post));
@@ -20,8 +22,24 @@ const Product = ({post}) => {
 
   const cartItem = cart.find((p) => p.id === post.id);
 
+  // Eco rating badge color
+  let ecoColor = "bg-gray-300 text-gray-700";
+  if (post.ecoRating >= 4) ecoColor = "bg-green-200 text-green-800";
+  else if (post.ecoRating >= 2.5) ecoColor = "bg-yellow-200 text-yellow-800";
+
+  // Button color classes
+  const mainBtn = ecoMode ? "bg-green-400 hover:bg-green-500" : "bg-blue-600 hover:bg-blue-700";
+  const textBtn = "text-white";
+
   return (
     <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col items-center p-4 relative">
+      {/* Eco Rating Badge */}
+      <span className={`absolute top-3 right-3 flex items-center gap-1 px-2 py-1 rounded-full text-xs font-bold shadow ${ecoColor}`}
+        title={`Eco Rating: ${post.ecoRating}`}
+      >
+        <FaLeaf className="inline-block" />
+        {post.ecoRating}
+      </span>
       {post.price < 50 && (
         <span className="absolute top-3 left-3 bg-yellow-400 text-xs font-bold px-2 py-1 rounded-full text-gray-900">Rollback</span>
       )}
@@ -38,14 +56,14 @@ const Product = ({post}) => {
       {cartItem ? (
         <div className="mt-4 w-full flex items-center justify-center gap-3">
           <button
-            className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2"
+            className={`${mainBtn} ${textBtn} rounded-full p-2`}
             onClick={() => dispatch(decrement(post.id))}
           >
             <FaMinus />
           </button>
           <span className="font-bold text-lg w-8 text-center">{cartItem.quantity}</span>
           <button
-            className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2"
+            className={`${mainBtn} ${textBtn} rounded-full p-2`}
             onClick={() => dispatch(increment(post.id))}
           >
             <FaPlus />
@@ -53,7 +71,7 @@ const Product = ({post}) => {
         </div>
       ) : (
         <button
-          className="mt-4 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition-colors duration-200 text-sm shadow"
+          className={`mt-4 w-full flex items-center justify-center gap-2 ${mainBtn} ${textBtn} font-semibold py-2 rounded-lg transition-colors duration-200 text-sm shadow`}
           onClick={addToCart}
         >
           <FaShoppingCart /> Add to Cart
