@@ -5,6 +5,7 @@ import Home from "./pages/Home"
 import Cart from "./pages/Cart"
 import { EcoModeProvider } from "./components/EcoModeContext";
 
+
 const App = () => {
   return (
     <EcoModeProvider>
