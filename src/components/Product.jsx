@@ -43,7 +43,7 @@ const Product = ({ post }) => {
         className={`absolute top-3 right-3 flex items-center gap-1 px-2 py-1 rounded-full text-xs font-bold shadow ${ecoColor}`}
         title={`Eco Rating: ${post.ecoRating}`}
       >
-        <FaLeaf className="inline-block" />
+        <FaLeaf className="inline-block red-900" />
         {post.ecoRating}
       </span>
 
