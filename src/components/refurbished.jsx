@@ -25,7 +25,7 @@ const refurbishedProducts = [
     title: "EcoSmart Blender (Refurbished)",
     description: "Certified refurbished kitchen appliance with warranty.",
     price: 89,
-    image: "blender.jpg",
+    image: "Blender.jpg",
     ecoRating: 4.2,
   },
 ];
