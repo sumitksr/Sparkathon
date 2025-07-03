@@ -40,7 +40,7 @@ const RefurbishedSection = () => {
       <h2 className="text-2xl font-bold text-green-800 mb-4 flex items-center gap-2">
         ♻️ Refurbished Deals
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
         {refurbishedProducts.map((item) => (
           <Product key={item.id} post={item} />
         ))}

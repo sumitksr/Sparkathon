@@ -37,7 +37,7 @@ const Product = ({ post }) => {
   const textBtn = "text-white";
 
   return (
-    <div className={`${bgColor} rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col items-center p-4 relative`}>
+    <div className={`${bgColor} rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between p-4 relative h-full`}>
       {/* Eco Rating Badge */}
       <span
         className={`absolute top-3 right-3 flex items-center gap-1 px-2 py-1 rounded-full text-xs font-bold shadow ${ecoColor}`}
@@ -57,17 +57,14 @@ const Product = ({ post }) => {
         <img src={post.image} className="h-40 w-40 object-contain" alt={post.title} />
       </div>
 
-      <div className="w-full">
+      <div className="flex-grow flex flex-col justify-start">
         <p className="text-gray-900 font-bold text-base md:text-lg mb-1 truncate" title={post.title}>
           {post.title}
         </p>
         <p className="text-gray-500 text-xs mb-2 line-clamp-2">
           {post.description.split(" ").slice(0, 15).join(" ") + "..."}
         </p>
-      </div>
-
-      <div className="flex items-center justify-between w-full mt-2">
-        <span className="text-green-600 font-bold text-lg">${post.price}</span>
+        <span className="text-green-600 font-bold text-lg mt-auto">${post.price}</span>
       </div>
 
       {cartItem ? (
