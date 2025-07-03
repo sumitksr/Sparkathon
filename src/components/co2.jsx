@@ -5,7 +5,7 @@ const co2Data = [
     carbonFootprint: 12.5, // kg CO2 per unit
   },
   {
-    id: 2,
+    id: 2, 
     name: "Refurbished Laptop",
     carbonFootprint: 45.0,
   },
