@@ -2,6 +2,7 @@ import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { add, remove, increment, decrement } from "../redux/Slices/CartSlice";
 import { FaShoppingCart, FaPlus, FaMinus, FaLeaf } from "react-icons/fa";
+import co2Data from "./co2";
 import { useEcoMode } from "./EcoModeContext";
 
 const Product = ({ post }) => {
@@ -9,8 +10,12 @@ const Product = ({ post }) => {
   const dispatch = useDispatch();
   const { ecoMode } = useEcoMode();
 
+  // Find CO2 from dataset
+  const productCO2 = co2Data.find((item) => item.id === post.id)?.carbonFootprint || 0;
+
   const addToCart = () => {
-    dispatch(add(post));
+    const payload = { ...post, carbonFootprint: productCO2 }; // Add CO2 to cart item
+    dispatch(add(payload));
     toast.success("Item added to Cart");
   };
 
@@ -26,25 +31,23 @@ const Product = ({ post }) => {
   if (post.ecoRating >= 4) ecoColor = "bg-green-200 text-green-800";
   else if (post.ecoRating >= 2.5) ecoColor = "bg-yellow-200 text-yellow-800";
 
-  // Background color based on eco rating
   let bgColor = "bg-white";
   if (post.ecoRating >= 4) bgColor = "bg-green-100";
   else if (post.ecoRating >= 2) bgColor = "bg-orange-100";
   else if (post.ecoRating >= 1) bgColor = "bg-red-200";
 
-  // Button color classes
   const mainBtn = ecoMode ? "bg-green-400 hover:bg-green-500" : "bg-blue-600 hover:bg-blue-700";
   const textBtn = "text-white";
 
   return (
     <div className={`${bgColor} rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between p-4 relative h-full`}>
-      {/* Eco Rating Badge */}
+      
       <span
         className={`absolute top-3 right-3 flex items-center gap-1 px-2 py-1 rounded-full text-xs font-bold shadow ${ecoColor}`}
         title={`Eco Rating: ${post.ecoRating}`}
       >
-        <FaLeaf className="inline-block" />
-        {post.ecoRating}
+        <FaLeaf className="inline-block red-800" />
+        {post.ecoRating} | {productCO2} kg CO₂
       </span>
 
       {post.price < 50 && (
