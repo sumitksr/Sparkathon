@@ -2,7 +2,8 @@ const co2Data = [
   {
     id: 1,
     name: "Mens Cotton Jacket",
-    carbonFootprint: 12.5, // kg CO2 per unit
+    carbonFootprint: 1.5, // kg CO2 per unit
+    price:10.01,
   },
   {
     id: 2, 
