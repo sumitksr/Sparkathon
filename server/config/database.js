@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/sparkathon';
+const dbUrl = process.env.DB_URL ;
 const dbconnect  = ()=> {
     mongoose.connect(dbUrl, {
 }).then (() => {
