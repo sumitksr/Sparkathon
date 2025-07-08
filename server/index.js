@@ -3,7 +3,13 @@ const app = express();
 const userRoutes = require('./routes/route.js');
 require("dotenv").config();
 const PORT = process.env.PORT || 3000;
-
+const cors = require('cors');
+// cors
+app.use(cors({
+    origin: 'https://sumitksr-shopapp.vercel.app/', // Allow all origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'] // Allow specific headers
+}));
 // middleware 
 app.use(express.json());
 
