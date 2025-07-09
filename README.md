@@ -1,2 +1,4 @@
-(Backend)[https://sparkathon-hlwf.onrender.com]
-(Frontend)[https://greencart-learners.vercel.app/]
+## 🌐 Live Demo
+
+- 🔙 **Backend**: [Live](https://sparkathon-hlwf.onrender.com)  
+- 🔜 **Frontend**: [Live](https://greencart-learners.vercel.app)
