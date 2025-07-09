@@ -7,7 +7,7 @@ import { useEcoMode } from "./EcoModeContext";
 const WALMART_LOGO = "/walmart.png";
 
 const Navbar = () => {
-  const [login,setLogin] = useState(false);
+  const [login,setLogin] = useState(true);
   const { cart } = useSelector((state) => state);
   const total = cart.reduce((acc, item) => acc + item.price * (item.quantity || 1), 0).toFixed(2);
   const navigate = useNavigate();
