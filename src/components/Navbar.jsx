@@ -7,6 +7,7 @@ import { useEcoMode } from "./EcoModeContext";
 const WALMART_LOGO = "/walmart.png";
 
 const Navbar = () => {
+  const [login,setLogin] = useState(false);
   const { cart } = useSelector((state) => state);
   const total = cart.reduce((acc, item) => acc + item.price * (item.quantity || 1), 0).toFixed(2);
   const navigate = useNavigate();
@@ -64,8 +65,15 @@ const Navbar = () => {
         </div>
         <div className="flex items-center gap-2 text-white cursor-pointer">
           <FaUser />
-          <span className="font-bold">Sign In <span className="font-normal">Account</span></span>
+          <span className="font-bold">
+            {login ? (
+              <>Account <span className="font-normal">Profile</span></>
+            ) : (
+              <>Sign In <span className="font-normal">Account</span></>
+            )}
+          </span>
         </div>
+
         <Link to="/cart" className="flex items-center gap-2 text-white cursor-pointer">
           <FaShoppingCart className="text-2xl" />
           <span className="font-bold">${total}</span>
