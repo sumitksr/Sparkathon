@@ -82,10 +82,10 @@ const Navbar = () => {
         
         {/* Right Side Icons/Links */}
                   <div className="flex items-center gap-4 lg:gap-6 flex-shrink-0">
-            <div className="hidden lg:flex items-center gap-2 text-white cursor-pointer">
+{/*             <div className="hidden lg:flex items-center gap-2 text-white cursor-pointer">
               <FaHeart />
               <span className="font-bold">Reorder <span className="font-normal">My Items</span></span>
-            </div>
+            </div> */}
             
             <Link to="/leaderboard" className="hidden lg:flex items-center gap-2 text-white cursor-pointer hover:opacity-80 transition-opacity">
               <FaTrophy />
