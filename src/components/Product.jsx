@@ -1,12 +1,12 @@
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { add, remove, increment, decrement } from "../redux/Slices/CartSlice";
+import { add, remove, increment, decrement, selectCartItemById } from "../redux/Slices/CartSlice";
 import { FaShoppingCart, FaPlus, FaMinus, FaLeaf } from "react-icons/fa";
 import co2Data from "./co2";
 import { useEcoMode } from "./EcoModeContext";
 
 const Product = ({ post }) => {
-  const { cart } = useSelector((state) => state);
+  const cartItem = useSelector((state) => selectCartItemById(state, post.id));
   const dispatch = useDispatch();
   const { ecoMode } = useEcoMode();
 
@@ -19,12 +19,11 @@ const Product = ({ post }) => {
     toast.success("Item added to Cart");
   };
 
-  const removeFromCart = () => {
-    dispatch(remove(post.id));
-    toast.error("Item removed from Cart");
-  };
-
-  const cartItem = cart.find((p) => p.id === post.id);
+  // Remove from cart functionality (unused but kept for future use)
+  // const removeFromCart = () => {
+  //   dispatch(remove(post.id));
+  //   toast.error("Item removed from Cart");
+  // };
 
   // Eco rating badge color
   let ecoColor = "bg-gray-300 text-gray-700";

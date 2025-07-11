@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 export const CartSlice = createSlice({
     name:"cart",
     initialState:[],
@@ -33,8 +32,17 @@ export const CartSlice = createSlice({
             }
             return state;
         },
+        clearCart: (state) => {
+            return [];
+        },
     }
 });
 
-export const {add, remove, increment, decrement} = CartSlice.actions;
+// Selectors for better performance
+export const selectCart = (state) => state.cart;
+export const selectCartItemById = (state, itemId) => state.cart.find(item => item.id === itemId);
+export const selectCartTotal = (state) => state.cart.reduce((acc, item) => acc + item.price * (item.quantity || 1), 0);
+export const selectCartCount = (state) => state.cart.length;
+
+export const {add, remove, increment, decrement, clearCart} = CartSlice.actions;
 export default CartSlice.reducer;

@@ -1,19 +1,23 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import co2Data from "../components/co2";
 import CartItem from "../components/CartItem";
 import { FaLeaf, FaTree } from "react-icons/fa";
+import { selectCart, selectCartTotal, clearCart } from "../redux/Slices/CartSlice";
+import { useAuth } from "../context/AuthContext";
+import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 
 export default function Checkout() {
-  const { cart } = useSelector((state) => state);
+  const cart = useSelector(selectCart);
+  const totalAmount = useSelector(selectCartTotal);
+  const { user, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [donation, setDonation] = useState(0);
   const [shippingOption, setShippingOption] = useState("standard");
-
-  const totalAmount = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const shippingEmissions = shippingOption === "standard" ? 7 : 2;
   const ecoDiscount = shippingOption === "eco" ? totalAmount * 0.02 : 0;
@@ -34,8 +38,52 @@ export default function Checkout() {
     setDonation(isNaN(value) ? 0 : value);
   };
 
-  const handlePayment = () => {
-    alert(`Thank you for making a difference! Total paid: $${payableAmount.toFixed(2)} USD and contributing to planting ${donation} trees 🌳`);
+  const handlePayment = async () => {
+    if (!isAuthenticated) {
+      toast.error("Please login to complete your purchase");
+      navigate('/login');
+      return;
+    }
+
+    setIsProcessing(true);
+    
+    try {
+      // Prepare eco points data
+      const orderData = {
+        totalAmount: payableAmount,
+        co2Offset: estimatedCO2Offset,
+        treesPlanted: donation,
+        ecoPoints: ecoPoints
+      };
+
+      // Send eco points data to backend
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000'}/api/eco-points/add`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user.id,
+          orderData: orderData
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success(`Payment successful! You earned ${ecoPoints} eco points!`);
+        // Clear cart and redirect to account page
+        dispatch(clearCart());
+        navigate('/account');
+      } else {
+        toast.error(data.message || 'Payment failed');
+      }
+    } catch (error) {
+      console.error('Payment error:', error);
+      toast.error('Payment failed. Please try again.');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -143,9 +191,21 @@ export default function Checkout() {
 
             <button
               onClick={handlePayment}
-              className="w-full bg-green-700 text-white py-3 rounded-xl hover:bg-green-800 text-lg shadow-lg"
+              disabled={isProcessing}
+              className={`w-full text-white py-3 rounded-xl text-lg shadow-lg transition-all duration-300 ${
+                isProcessing 
+                  ? 'bg-gray-500 cursor-not-allowed' 
+                  : 'bg-green-700 hover:bg-green-800'
+              }`}
             >
-              Pay & Offset Your Impact
+              {isProcessing ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  Processing Payment...
+                </div>
+              ) : (
+                'Pay & Offset Your Impact'
+              )}
             </button>
           </div>
         </div>

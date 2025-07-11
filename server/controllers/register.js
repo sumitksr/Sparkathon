@@ -31,7 +31,8 @@ exports.signup = async (req, res) => {
         });
         
     } catch (error) {
-        console.error('Error during signup:', error);  
+        console.error('Error during signup:', error);
+        res.status(500).json({message: 'Internal server error'});
     }
 };
 exports.login = async (req, res) => {

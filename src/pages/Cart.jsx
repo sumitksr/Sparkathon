@@ -1,16 +1,12 @@
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem";
-import { FaLeaf, FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
+import { selectCart, selectCartTotal } from "../redux/Slices/CartSlice";
 
 const Cart = () => {
-  const { cart } = useSelector((state) => state);
-  const [totalAmount, setTotalAmount] = useState(0);
-
-  useEffect(() => {
-    setTotalAmount(cart.reduce((acc, curr) => acc + curr.price * (curr.quantity || 1), 0));
-  }, [cart]);
+  const cart = useSelector(selectCart);
+  const totalAmount = useSelector(selectCartTotal);
 
   return (
     <div className="max-w-6xl mx-auto p-6">
