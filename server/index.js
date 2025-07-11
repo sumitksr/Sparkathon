@@ -6,7 +6,12 @@ const PORT = process.env.PORT || 5000;
 const cors = require('cors');
 // cors
 app.use(cors({
-    origin: ['https://sumitksr-shopapp.vercel.app/', 'http://localhost:3000', 'http://localhost:5001','https://greencart-learners.vercel.app/'], // Allow specific origins
+    origin: [
+        'https://sumitksr-shopapp.vercel.app',
+        'http://localhost:3000',
+        'http://localhost:5001',
+        'https://greencart-learners.vercel.app'
+    ], // Allow specific origins
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
     credentials: true // Allow credentials
