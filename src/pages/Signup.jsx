@@ -21,10 +21,6 @@ export default function Signup() {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [otpModal, setOtpModal] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [otpLoading, setOtpLoading] = useState(false);
-  const [otpError, setOtpError] = useState("");
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -46,69 +42,42 @@ export default function Signup() {
   async function handleSubmit(e) {
     e.preventDefault();
     if (!validateForm()) return;
+    
     setLoading(true);
-    setError("");
-    setOtpError("");
+    setError('');
+    
     try {
-      // Send OTP to email
-      const res = await fetch(`${BACKEND_URL}/api/send-otp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          password: formData.password,
-        }),
+      const res = await fetch(`${BACKEND_URL}/api/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+        credentials: 'include',
       });
       const data = await res.json();
-      if (res.ok) {
-        toast.success("OTP sent to your email");
-        setOtpModal(true);
-      } else {
-        setError(data.message || "Failed to send OTP");
-      }
-    } catch (err) {
-      setError("Failed to send OTP. Please try again.");
-    }
-    setLoading(false);
-  }
-
-  async function handleOtpSubmit(e) {
-    e.preventDefault();
-    setOtpLoading(true);
-    setOtpError("");
-    try {
-      const res = await fetch(`${BACKEND_URL}/api/verify-otp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: formData.email, otp }),
-      });
-      const data = await res.json();
-      if (res.ok) {
+      if (data.message === 'User created successfully') {
         // Auto-login after successful signup
         const loginRes = await fetch(`${BACKEND_URL}/api/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: formData.email, password: formData.password }),
-          credentials: "include",
+          credentials: 'include',
         });
         const loginData = await loginRes.json();
-        if (loginData.message === "Login successful") {
+        if (loginData.message === 'Login successful') {
           login(loginData.user, loginData.token);
-          toast.success("Account created and logged in successfully!");
-          navigate("/");
+          toast.success('Account created and logged in successfully!');
+          navigate('/');
         } else {
-          toast.success("Account created successfully! Please sign in.");
-          navigate("/login");
+          toast.success('Account created successfully! Please sign in.');
+          navigate('/login');
         }
       } else {
-        setOtpError(data.message || "Invalid OTP");
+        setError(data.message || "Registration failed");
       }
     } catch (err) {
-      setOtpError("Failed to verify OTP. Please try again.");
+      setError("Registration error. Please try again.");
     }
-    setOtpLoading(false);
+    setLoading(false);
   }
 
   return (
@@ -304,45 +273,6 @@ export default function Signup() {
           </button>
         </form>
         
-        {/* OTP Modal */}
-        {otpModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-            <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-xs relative animate-fade-in-up">
-              <button
-                className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-xl"
-                onClick={() => setOtpModal(false)}
-                disabled={otpLoading}
-                aria-label="Close"
-              >
-                &times;
-              </button>
-              <h2 className="text-xl font-bold mb-4 text-center text-gray-800">Verify Email</h2>
-              <p className="text-gray-600 text-sm mb-2 text-center">Enter the OTP sent to <span className="font-semibold">{formData.email}</span></p>
-              <form onSubmit={handleOtpSubmit} className="space-y-3">
-                <input
-                  type="text"
-                  value={otp}
-                  onChange={e => setOtp(e.target.value)}
-                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-center text-lg tracking-widest"
-                  placeholder="Enter OTP"
-                  maxLength={6}
-                  required
-                  disabled={otpLoading}
-                  autoFocus
-                />
-                {otpError && <div className="text-red-500 text-center text-sm">{otpError}</div>}
-                <button
-                  type="submit"
-                  className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-all duration-300 disabled:opacity-60"
-                  disabled={otpLoading}
-                >
-                  {otpLoading ? "Verifying..." : "Verify & Create Account"}
-                </button>
-              </form>
-            </div>
-          </div>
-        )}
-
         <div className="mt-6 text-center">
           <p className="text-gray-600">
             Already have an account?{" "}
