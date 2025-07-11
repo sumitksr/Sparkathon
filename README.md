@@ -144,11 +144,6 @@ Every purchase and donation helps you climb the leaderboard and make a real-worl
 4. Push to your branch
 5. Create a Pull Request
 
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
 
 ---
 
