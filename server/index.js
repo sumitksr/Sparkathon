@@ -9,7 +9,7 @@ app.use(cors({
     origin: [
         'https://sumitksr-shopapp.vercel.app',
         'http://localhost:3000',
-        'http://localhost:5001',
+        'http://localhost:5000',
         'https://greencart-learners.vercel.app'
     ], // Allow specific origins
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods

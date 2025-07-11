@@ -87,17 +87,17 @@ export default function Checkout() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-8 bg-gradient-to-tr from-green-50 to-white shadow-xl rounded-2xl mt-8">
-      <h1 className="text-4xl font-extrabold mb-8 text-green-800 flex items-center">
-        <FaLeaf className="mr-3" /> Checkout & Your Eco Impact
+    <div className="max-w-6xl mx-auto px-2 sm:px-8 py-4 sm:py-8 bg-gradient-to-tr from-green-50 to-white shadow-xl rounded-2xl mt-4 sm:mt-8">
+      <h1 className="text-2xl sm:text-4xl font-extrabold mb-4 sm:mb-8 text-green-800 flex items-center">
+        <FaLeaf className="mr-2 sm:mr-3" /> Checkout & Your Eco Impact
       </h1>
 
       {cart.length === 0 ? (
-        <p className="text-gray-600 text-lg">
+        <p className="text-gray-600 text-base sm:text-lg">
           Your cart is empty. <Link to="/" className="text-blue-600 underline">Explore Eco Products</Link>
         </p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-10">
           <div>
             {cart.map((item, index) => {
               const productCO2 = co2Data.find((p) => p.id === item.id)?.carbonFootprint || 0;
@@ -106,19 +106,21 @@ export default function Checkout() {
                 .sort((a, b) => a.carbonFootprint - b.carbonFootprint)[0];
 
               return (
-                <div key={index} className="mb-6 bg-white border rounded-xl p-5 shadow hover:shadow-lg">
+                <div key={index} className="mb-4 sm:mb-6 bg-white border rounded-xl p-3 sm:p-5 shadow hover:shadow-lg">
                   <CartItem item={item} />
-                  <p className="text-blue-700 mt-2 font-medium">
+                  <p className="text-blue-700 mt-1 sm:mt-2 font-medium text-sm sm:text-base">
                     🌍 Carbon Footprint: {productCO2 * item.quantity} kg CO₂
                   </p>
 
                   {greenerAlternative && (
-                    <div className="mt-4 p-4 bg-green-50 border border-green-300 rounded-lg shadow">
-                      <h3 className="text-green-800 font-bold mb-2">🌱 Suggested Eco-Friendly Alternative:</h3>
+                    <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-green-50 border border-green-300 rounded-lg shadow">
+                      <h3 className="text-green-800 font-bold mb-1 sm:mb-2 text-sm sm:text-base">
+                        🌱 Suggested Eco-Friendly Alternative:
+                      </h3>
                       <div>
-                        <p className="font-semibold">{greenerAlternative.name}</p>
-                        <p className="text-sm text-gray-700">Carbon Footprint: {greenerAlternative.carbonFootprint} kg CO₂</p>
-                        <p className="text-green-700 font-medium">${greenerAlternative.price}</p>
+                        <p className="font-semibold text-sm sm:text-base">{greenerAlternative.name}</p>
+                        <p className="text-xs sm:text-sm text-gray-700">Carbon Footprint: {greenerAlternative.carbonFootprint} kg CO₂</p>
+                        <p className="text-green-700 font-medium text-sm sm:text-base">${greenerAlternative.price}</p>
                       </div>
                     </div>
                   )}
@@ -127,19 +129,29 @@ export default function Checkout() {
             })}
           </div>
 
-          <div className="bg-white p-6 rounded-2xl shadow-xl">
-            <h2 className="text-2xl font-bold text-green-700 mb-4">Your Order Summary</h2>
+          <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-xl">
+            <h2 className="text-lg sm:text-2xl font-bold text-green-700 mb-3 sm:mb-4">Your Order Summary</h2>
 
-            <p className="mb-2">🛒 <span className="font-medium">Items:</span> {cart.length}</p>
-            <p className="mb-2">🌍 <span className="font-medium">Total CO₂ Footprint (with shipping):</span> {totalCO2WithShipping} kg</p>
-            <p className="mb-2">💵 <span className="font-medium">Total Price:</span> ${totalAmount.toFixed(2)}</p>
+            <p className="mb-1 sm:mb-2 text-sm sm:text-base">
+              🛒 <span className="font-medium">Items:</span> {cart.length}
+            </p>
+            <p className="mb-1 sm:mb-2 text-sm sm:text-base">
+              🌍 <span className="font-medium">Total CO₂ Footprint (with shipping):</span> {totalCO2WithShipping} kg
+            </p>
+            <p className="mb-1 sm:mb-2 text-sm sm:text-base">
+              💵 <span className="font-medium">Total Price:</span> ${totalAmount.toFixed(2)}
+            </p>
             {shippingOption === "eco" && (
-              <p className="text-green-700 mb-2">🎉 Eco Delivery Discount Applied: -${ecoDiscount.toFixed(2)}</p>
+              <p className="text-green-700 mb-1 sm:mb-2 text-sm sm:text-base">
+                🎉 Eco Delivery Discount Applied: -${ecoDiscount.toFixed(2)}
+              </p>
             )}
 
-            <div className="mb-4 p-4 bg-green-50 rounded">
-              <p className="font-medium mb-2">🚚 Select Shipping Option:</p>
-              <label className="block mb-1">
+            <div className="mb-3 sm:mb-4 p-3 sm:p-4 bg-green-50 rounded">
+              <p className="font-medium mb-1 sm:mb-2 text-sm sm:text-base">
+                🚚 Select Shipping Option:
+              </p>
+              <label className="block mb-1 text-sm sm:text-base">
                 <input
                   type="radio"
                   name="shipping"
@@ -150,7 +162,7 @@ export default function Checkout() {
                 />
                 Standard Delivery (7 kg CO₂)
               </label>
-              <label className="block">
+              <label className="block text-sm sm:text-base">
                 <input
                   type="radio"
                   name="shipping"
@@ -163,8 +175,8 @@ export default function Checkout() {
               </label>
             </div>
 
-            <div className="mb-4">
-              <label className="block mb-1 font-semibold flex items-center">
+            <div className="mb-3 sm:mb-4">
+              <label className="block mb-1 font-semibold flex items-center text-sm sm:text-base">
                 <FaTree className="mr-2 text-green-500" />
                 Donate to Plant Trees (1 USD = 1 Tree):
               </label>
@@ -172,27 +184,27 @@ export default function Checkout() {
                 type="number"
                 placeholder="Enter amount"
                 min="0"
-                className="border p-2 w-32 rounded mr-2"
+                className="border p-2 w-24 sm:w-32 rounded mr-2 text-sm sm:text-base"
                 value={donation}
                 onChange={handleDonationChange}
               />
-              <span className="text-green-700 font-medium">USD</span>
+              <span className="text-green-700 font-medium text-sm sm:text-base">USD</span>
             </div>
 
-            <div className="bg-green-50 p-4 rounded-lg mb-4">
+            <div className="bg-green-50 p-3 sm:p-4 rounded-lg mb-3 sm:mb-4 text-sm sm:text-base">
               <p>🌳 <strong>{totalTreesPlanted}</strong> trees will be planted</p>
               <p>💨 Offsetting approx <strong>{estimatedCO2Offset} kg CO₂</strong></p>
               <p>🏅 Earned <strong>{ecoPoints} EcoPoints</strong></p>
             </div>
 
-            <h2 className="text-xl font-bold mb-4">
+            <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">
               Total Payable: ${payableAmount.toFixed(2)} USD
             </h2>
 
             <button
               onClick={handlePayment}
               disabled={isProcessing}
-              className={`w-full text-white py-3 rounded-xl text-lg shadow-lg transition-all duration-300 ${
+              className={`w-full text-white py-2 sm:py-3 rounded-xl text-base sm:text-lg shadow-lg transition-all duration-300 ${
                 isProcessing 
                   ? 'bg-gray-500 cursor-not-allowed' 
                   : 'bg-green-700 hover:bg-green-800'

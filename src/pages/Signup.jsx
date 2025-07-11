@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import { useEcoMode } from "../components/EcoModeContext";
 import { useAuth } from "../context/AuthContext";
-import { FaEye, FaEyeSlash, FaUser, FaLock, FaEnvelope, FaPhone } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaUser, FaLock, FaEnvelope, FaPhone, FaUserPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { BACKEND_URL } from "../utils/config";
 
@@ -21,6 +21,10 @@ export default function Signup() {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [otpModal, setOtpModal] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [otpLoading, setOtpLoading] = useState(false);
+  const [otpError, setOtpError] = useState("");
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -42,42 +46,69 @@ export default function Signup() {
   async function handleSubmit(e) {
     e.preventDefault();
     if (!validateForm()) return;
-    
     setLoading(true);
-    setError('');
-    
+    setError("");
+    setOtpError("");
     try {
-      const res = await fetch(`${BACKEND_URL}/api/signup`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-        credentials: 'include',
+      // Send OTP to email
+      const res = await fetch(`${BACKEND_URL}/api/send-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password,
+        }),
       });
       const data = await res.json();
-      if (data.message === 'User created successfully') {
-        // Auto-login after successful signup
-        const loginRes = await fetch(`${BACKEND_URL}/api/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: formData.email, password: formData.password }),
-          credentials: 'include',
-        });
-        const loginData = await loginRes.json();
-        if (loginData.message === 'Login successful') {
-          login(loginData.user, loginData.token);
-          toast.success('Account created and logged in successfully!');
-          navigate('/');
-        } else {
-          toast.success('Account created successfully! Please sign in.');
-          navigate('/login');
-        }
+      if (res.ok) {
+        toast.success("OTP sent to your email");
+        setOtpModal(true);
       } else {
-        setError(data.message || "Registration failed");
+        setError(data.message || "Failed to send OTP");
       }
     } catch (err) {
-      setError("Registration error. Please try again.");
+      setError("Failed to send OTP. Please try again.");
     }
     setLoading(false);
+  }
+
+  async function handleOtpSubmit(e) {
+    e.preventDefault();
+    setOtpLoading(true);
+    setOtpError("");
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/verify-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: formData.email, otp }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        // Auto-login after successful signup
+        const loginRes = await fetch(`${BACKEND_URL}/api/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: formData.email, password: formData.password }),
+          credentials: "include",
+        });
+        const loginData = await loginRes.json();
+        if (loginData.message === "Login successful") {
+          login(loginData.user, loginData.token);
+          toast.success("Account created and logged in successfully!");
+          navigate("/");
+        } else {
+          toast.success("Account created successfully! Please sign in.");
+          navigate("/login");
+        }
+      } else {
+        setOtpError(data.message || "Invalid OTP");
+      }
+    } catch (err) {
+      setOtpError("Failed to verify OTP. Please try again.");
+    }
+    setOtpLoading(false);
   }
 
   return (
@@ -262,19 +293,56 @@ export default function Signup() {
             {loading ? (
               <>
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                Creating account...
+                Signing up...
               </>
             ) : (
               <>
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                </svg>
+                <FaUserPlus className="w-5 h-5" />
                 Create Account
               </>
             )}
           </button>
         </form>
         
+        {/* OTP Modal */}
+        {otpModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+            <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-xs relative animate-fade-in-up">
+              <button
+                className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-xl"
+                onClick={() => setOtpModal(false)}
+                disabled={otpLoading}
+                aria-label="Close"
+              >
+                &times;
+              </button>
+              <h2 className="text-xl font-bold mb-4 text-center text-gray-800">Verify Email</h2>
+              <p className="text-gray-600 text-sm mb-2 text-center">Enter the OTP sent to <span className="font-semibold">{formData.email}</span></p>
+              <form onSubmit={handleOtpSubmit} className="space-y-3">
+                <input
+                  type="text"
+                  value={otp}
+                  onChange={e => setOtp(e.target.value)}
+                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-center text-lg tracking-widest"
+                  placeholder="Enter OTP"
+                  maxLength={6}
+                  required
+                  disabled={otpLoading}
+                  autoFocus
+                />
+                {otpError && <div className="text-red-500 text-center text-sm">{otpError}</div>}
+                <button
+                  type="submit"
+                  className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-all duration-300 disabled:opacity-60"
+                  disabled={otpLoading}
+                >
+                  {otpLoading ? "Verifying..." : "Verify & Create Account"}
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+
         <div className="mt-6 text-center">
           <p className="text-gray-600">
             Already have an account?{" "}

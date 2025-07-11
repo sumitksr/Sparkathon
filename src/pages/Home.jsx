@@ -69,15 +69,15 @@ const Home = () => {
     >
       <HeroBanner />
 
-      <div className="max-w-6xl mx-auto px-4 py-6">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">
+      <div className="max-w-6xl mx-auto px-2 sm:px-4 py-4 sm:py-6">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-gray-800 text-center sm:text-left">
           Shop the Latest
         </h2>
 
         {loading ? (
           <Spinner />
         ) : filteredPosts.length > 0 ? (
-          <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8">
             {filteredPosts.map((post) => (
               <Product key={post.id} post={post} />
             ))}
