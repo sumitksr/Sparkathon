@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useEcoMode } from "../components/EcoModeContext";
 import { FaTrophy, FaLeaf, FaTree, FaCoins, FaMedal, FaCrown } from "react-icons/fa";
+import { BACKEND_URL } from "../utils/config";
 
 export default function Leaderboard() {
   const { ecoMode } = useEcoMode();
@@ -14,7 +15,7 @@ export default function Leaderboard() {
 
   const fetchLeaderboard = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000'}/api/leaderboard`);
+      const response = await fetch(`${BACKEND_URL}/api/leaderboard`);
       const data = await response.json();
       
       if (response.ok) {

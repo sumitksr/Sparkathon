@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import co2Data from "../components/co2";
 import CartItem from "../components/CartItem";
 import { FaLeaf, FaTree } from "react-icons/fa";
 import { selectCart, selectCartTotal, clearCart } from "../redux/Slices/CartSlice";
 import { useAuth } from "../context/AuthContext";
-import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
+import { BACKEND_URL } from "../utils/config";
 
 export default function Checkout() {
   const cart = useSelector(selectCart);
@@ -57,7 +57,7 @@ export default function Checkout() {
       };
 
       // Send eco points data to backend
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000'}/api/eco-points/add`, {
+      const response = await fetch(`${BACKEND_URL}/api/eco-points/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

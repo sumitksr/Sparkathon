@@ -4,6 +4,7 @@ import { useEcoMode } from "../components/EcoModeContext";
 import { useAuth } from "../context/AuthContext";
 import { FaEye, FaEyeSlash, FaUser, FaLock } from "react-icons/fa";
 import toast from "react-hot-toast";
+import { BACKEND_URL } from "../utils/config";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ export default function Login() {
     setError('');
     
     try {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000'}/api/login`, {
+      const res = await fetch(`${BACKEND_URL}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

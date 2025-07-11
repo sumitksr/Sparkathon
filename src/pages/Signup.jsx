@@ -4,6 +4,7 @@ import { useEcoMode } from "../components/EcoModeContext";
 import { useAuth } from "../context/AuthContext";
 import { FaEye, FaEyeSlash, FaUser, FaLock, FaEnvelope, FaPhone } from "react-icons/fa";
 import toast from "react-hot-toast";
+import { BACKEND_URL } from "../utils/config";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ export default function Signup() {
     setError('');
     
     try {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000'}/api/signup`, {
+      const res = await fetch(`${BACKEND_URL}/api/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -55,7 +56,7 @@ export default function Signup() {
       const data = await res.json();
       if (data.message === 'User created successfully') {
         // Auto-login after successful signup
-        const loginRes = await fetch(`${process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000'}/api/login`, {
+        const loginRes = await fetch(`${BACKEND_URL}/api/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: formData.email, password: formData.password }),

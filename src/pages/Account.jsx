@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useEcoMode } from "../components/EcoModeContext";
 import { FaUser, FaEnvelope, FaSignOutAlt, FaArrowLeft, FaLeaf, FaTree, FaCoins, FaDollarSign, FaTrophy } from "react-icons/fa";
+import { BACKEND_URL } from "../utils/config";
 
 export default function Account() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ export default function Account() {
   useEffect(() => {
     const fetchEcoPoints = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000'}/api/eco-points/${user.id}`);
+        const response = await fetch(`${BACKEND_URL}/api/eco-points/${user.id}`);
         const data = await response.json();
         
         if (response.ok) {
