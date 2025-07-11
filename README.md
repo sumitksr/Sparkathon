@@ -1,150 +1,187 @@
-# 🌱 Sparkathon: Eco-Friendly Walmart Shopping App 🛒
+# 🌱 GreenCart – Eco-Friendly Walmart Hackathon Project 🛒
 
-Welcome to **Sparkathon** – a modern, eco-conscious e-commerce platform inspired by Walmart! This project is designed to encourage sustainable shopping by rewarding users with eco points for every green action they take. Track your environmental impact, compete on the leaderboard, and make a difference with every purchase! 🌍✨
+**GreenCart** is a modern, eco-conscious e-commerce web application built for the **Walmart Sparkathon Hackathon**. It encourages sustainable shopping by rewarding users with eco points for every green action they take—be it choosing eco-friendly products, opting for green shipping, or planting trees.
+
+Track your environmental impact, climb the global leaderboard, and make every purchase count toward a greener planet. 🌍✨
 
 ---
 
 ## 🚀 Project Overview
 
-Sparkathon is a full-stack web application that combines a beautiful React frontend with a robust Node.js/Express backend and MongoDB database. Users can:
-- 🛒 Shop for products
-- ♻️ Choose eco-friendly options
-- 🌳 Donate to plant trees
-- 🏆 Compete on a global leaderboard
-- 👤 Track their personal eco impact
+GreenCart is a full-stack web app featuring a sleek and responsive user interface, secure authentication, and an eco-reward system. It combines a **React** frontend with a **Node.js/Express** backend and **MongoDB** database.
 
-The app is fully responsive, supports eco-mode (green/blue themes), and provides a seamless, modern shopping experience.
+### 👤 Users can:
+
+* Browse and shop for products 💼
+* Choose eco-friendly options ♻️
+* Donate to plant trees 🌳
+* Track their sustainability impact 📊
+* Compete on the global leaderboard 🏆
 
 ---
 
-## ✨ Main Features
+## 🚪 Live Demo
 
-- **Eco Points System**: Earn points for eco-friendly purchases, tree donations, and green shipping.
-- **Leaderboard**: See how you rank against other users based on your eco points.
-- **Account Dashboard**: Track your total eco points, trees planted, CO₂ offset, and spending.
-- **Cart & Checkout**: Add products to your cart, choose shipping, and donate to plant trees.
-- **Authentication**: Secure login/signup with JWT and persistent sessions.
-- **Responsive UI**: Works beautifully on mobile, tablet, and desktop.
-- **Modern Design**: Walmart-inspired, with smooth animations and eco-mode toggle.
+* 🔗 [Frontend (Vercel)](https://greencart-learners.vercel.app/)
+* 🚀 [Backend API (Render)](https://sparkathon-vbby.onrender.com)
+
+> ⚠️ **Note:** Due to Render's cold start, the backend might take up to **50 seconds** to respond initially. Please wait patiently after your first action.
+
+---
+
+## ✨ Key Features
+
+* **💚 Eco Points System**: Earn points for green purchases, eco-friendly shipping, and tree donations.
+* **📈 Leaderboard**: Compete globally and track your rank based on eco points.
+* **📊 Account Dashboard**: View total points, trees planted, CO₂ offset, and spending history.
+* **🛒 Cart & Checkout**: Seamlessly add products, choose delivery options, and donate at checkout.
+* **🔐 Authentication**: Secure login/signup with JWT, hashed passwords, and session persistence.
+* **🎨 Eco Mode Toggle**: Switch between standard and eco-themed UI modes (blue/green).
+* **📱 Responsive Design**: Optimized for mobile, tablet, and desktop.
+* **🌐 Modern UI**: Walmart-inspired with clean design and smooth animations.
 
 ---
 
 ## 🛠️ Tech Stack
 
-**Frontend:**
-- React 18
-- Redux Toolkit
-- React Router DOM
-- Tailwind CSS
-- React Icons
-- React Hot Toast
+### **Frontend**
 
-**Backend:**
-- Node.js & Express.js
-- MongoDB & Mongoose
-- JWT Authentication
-- bcrypt for password hashing
-- dotenv for environment variables
+* [React 18](https://reactjs.org/)
+* [Redux Toolkit](https://redux-toolkit.js.org/)
+* [React Router DOM](https://reactrouter.com/)
+* [Tailwind CSS](https://tailwindcss.com/)
+* [React Icons](https://react-icons.github.io/react-icons/)
+* [React Hot Toast](https://react-hot-toast.com/)
+* [Vercel Deployment](https://vercel.com/)
+
+### **Backend**
+
+* [Node.js](https://nodejs.org/) + [Express.js](https://expressjs.com/)
+* [MongoDB](https://www.mongodb.com/) + [Mongoose](https://mongoosejs.com/)
+* [JWT Authentication](https://jwt.io/)
+* [bcrypt](https://www.npmjs.com/package/bcrypt) for password hashing
+* [dotenv](https://www.npmjs.com/package/dotenv) for environment config
+* [Render Deployment](https://render.com/)
 
 ---
 
-## 📁 File Structure
+## 📁 Project Structure
 
 ```
-Sparkathon/
-├── public/                  # Static assets (logo, icons, images, index.html)
+GreenCart/
+├── public/                  # Static assets (images, icons, HTML)
 ├── src/
-│   ├── components/          # Reusable React components (Navbar, Product, CartItem, etc.)
-│   ├── pages/               # Main pages (Home, Cart, Checkout, Account, Leaderboard, Login, Signup)
-│   ├── redux/               # Redux store and slices
-│   ├── data.js              # Product data (if any)
-│   ├── index.js             # React entry point
+│   ├── components/          # Reusable React components
+│   ├── pages/               # Page-level components (Cart, Checkout, Login, etc.)
+│   ├── redux/               # Redux store setup and slices
+│   ├── data.js              # Product mock data
+│   ├── index.js             # Entry point
 │   └── index.css            # Global styles (Tailwind)
 ├── server/
-│   ├── config/              # Database connection config
-│   ├── controllers/         # Express route controllers (register, ecoPoints)
-│   ├── models/              # Mongoose models (user, ecoPoints)
-│   ├── routes/              # Express route definitions
-│   └── index.js             # Express server entry point
-├── package.json             # Project dependencies (frontend)
+│   ├── config/              # MongoDB connection config
+│   ├── controllers/         # Business logic for routes
+│   ├── models/              # Mongoose models (User, EcoPoints, etc.)
+│   ├── routes/              # API route definitions
+│   └── index.js             # Server entry point
+├── .env                     # Environment variables (not committed)
+├── package.json             # Project dependencies
 ├── tailwind.config.js       # Tailwind CSS config
 └── README.md                # Project documentation
 ```
 
 ---
 
-## 🏁 How to Run the Project
+## 🧑‍💻 Getting Started
 
-### 1. **Clone the Repository**
+### 1. Clone the Repository
+
 ```bash
 git clone <repository-url>
-cd Sparkathon
+cd GreenCart
 ```
 
-### 2. **Install Frontend Dependencies**
+### 2. Install Frontend Dependencies
+
 ```bash
 npm install
 ```
 
-### 3. **Install Backend Dependencies**
+### 3. Install Backend Dependencies
+
 ```bash
 cd server
 npm install
 ```
 
-### 4. **Set Up Environment Variables**
-Create a `.env` file in the `server/` directory:
+### 4. Configure Environment Variables
+
+Create a `.env` file inside the `server/` directory:
+
 ```
 DB_URL=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 N=10
 ```
 
-### 5. **Start the Backend Server**
+### 5. Start the Backend Server
+
 ```bash
 cd server
 npm start
 ```
-The backend will run on [http://localhost:5000](http://localhost:5000)
 
-### 6. **Start the Frontend App**
+Backend runs at: `http://localhost:5000`
+
+### 6. Start the Frontend App
+
 ```bash
-# In the project root
-yarn start # or npm start
+# From the project root
+npm start
 ```
-The frontend will run on [http://localhost:3000](http://localhost:3000) (or another port if 3000 is in use)
+
+Frontend runs at: `http://localhost:3000`
 
 ---
 
-## 🌟 User Experience
+## 🌟 User Experience Highlights
 
-- **Shop**: Browse and search for products, add to cart, and checkout.
-- **Eco Mode**: Toggle between blue (default) and green (eco) themes.
-- **Leaderboard**: See the top eco champions and your own rank.
-- **Account**: View your eco points, trees planted, CO₂ offset, and order history.
-- **Notifications**: Get instant feedback with toast notifications.
+* 🔍 **Product Discovery**: Browse and filter items.
+* 🌳 **Eco Choices**: Toggle eco-friendly product options and shipping.
+* 🧑‍💼 **User Profiles**: Track your sustainability journey.
+* 🏆 **Leaderboard**: Get motivated by others' impact.
+* 🗓️ **Notifications**: Get real-time updates with toast alerts.
 
 ---
 
-## 🏆 Compete & Make a Difference!
+## 🏆 Make a Difference with Every Click
 
-Every purchase and donation helps you climb the leaderboard and make a real-world impact. 🌳
+Join the movement:
 
-- **Earn Eco Points** for every green action
-- **Plant Trees** and offset your carbon footprint
-- **Track Your Progress** and inspire others
+* Earn **Eco Points** for sustainable choices
+* **Plant Trees** with every donation
+* Track your **carbon footprint** and help reverse it
+* Inspire others by climbing the **eco leaderboard**
 
 ---
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to your branch
-5. Create a Pull Request
+We welcome contributions! Here's how to get started:
 
+1. Fork the repository
+2. Create a new feature branch (`git checkout -b feature-name`)
+3. Make your changes and commit (`git commit -m "Add feature"`)
+4. Push to your branch (`git push origin feature-name`)
+5. Create a Pull Request
 
 ---
 
-**Built with ❤️ for a greener tomorrow!**
+## 🙌 Acknowledgments
+
+* Developed for the **Walmart Sparkathon Hackathon** 💡
+* Built with ❤️ by a team passionate about sustainability and tech 🌍
+
+---
+
+**Let’s code for a cleaner planet.** 🌱
+**Every feature, every commit, every purchase—toward a greener tomorrow.**
