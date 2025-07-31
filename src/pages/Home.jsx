@@ -1,18 +1,20 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
 import Spinner from "../components/Spinner";
 import Product from "../components/Product";
 import HeroBanner from "../components/HeroBanner";
-import { useLocation } from "react-router-dom";
-import { useEcoMode } from "../components/EcoModeContext";
 import RefurbishedSection from "../components/refurbished.jsx";
+import { useEcoMode } from "../components/EcoModeContext";
+
+import { products as localProducts } from "../data";
 
 // Generate a mock eco rating from product ID
 const getAssumedEcoRating = (id) => {
   return (id % 5) + 1; // Value between 1 and 5
 };
 
-const Home = () => {
-  const API_URL = "https://fakestoreapi.com/products";
+export default function Home() {
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState([]);
 
@@ -22,22 +24,17 @@ const Home = () => {
 
   const { ecoMode } = useEcoMode();
 
-  // Fetch product data from API
-  async function fetchProductData() {
+  // Load product data from localProducts
+  function fetchProductData() {
     setLoading(true);
     try {
-      const res = await fetch(API_URL);
-      let data = await res.json();
-
-      // Assign mock ecoRating to each product
-      data = data.map((item) => ({
+      const dataWithEco = localProducts.map((item) => ({
         ...item,
         ecoRating: getAssumedEcoRating(item.id),
       }));
-
-      setPosts(data);
+      setPosts(dataWithEco);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error loading local data:", error);
       setPosts([]);
     }
     setLoading(false);
@@ -93,6 +90,4 @@ const Home = () => {
       </div>
     </div>
   );
-};
-
-export default Home;
+}
