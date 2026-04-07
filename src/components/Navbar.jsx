@@ -44,7 +44,6 @@ const Navbar = () => {
       <div className="hidden md:flex items-center px-4 py-2 gap-4">
         {/* Logo */}
         <Link to="/" className="flex-shrink-0">
-          <img src={WALMART_LOGO} alt="Walmart Logo" className="h-10 w-10 cursor-pointer" />
         </Link>
         
         {/* Pickup/Delivery Pill */}
@@ -67,7 +66,7 @@ const Navbar = () => {
         <form className="flex-1 flex items-center max-w-md lg:max-w-lg" onSubmit={handleSearch}>
           <input
             type="text"
-            placeholder="Search Walmart"
+            placeholder="Search Products"
             className="w-full rounded-full px-4 lg:px-6 py-2 text-blue-700 text-sm lg:text-lg focus:outline-none"
             value={search}
             onChange={e => setSearch(e.target.value)}
