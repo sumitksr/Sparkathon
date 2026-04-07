@@ -1,20 +1,18 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-
 import Spinner from "../components/Spinner";
 import Product from "../components/Product";
 import HeroBanner from "../components/HeroBanner";
-import RefurbishedSection from "../components/refurbished.jsx";
+import { useLocation } from "react-router-dom";
 import { useEcoMode } from "../components/EcoModeContext";
-
-import { products as localProducts } from "../data";
+import RefurbishedSection from "../components/refurbished.jsx";
+import { products } from "../data";
 
 // Generate a mock eco rating from product ID
 const getAssumedEcoRating = (id) => {
   return (id % 5) + 1; // Value between 1 and 5
 };
 
-export default function Home() {
+const Home = () => {
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState([]);
 
@@ -24,21 +22,16 @@ export default function Home() {
 
   const { ecoMode } = useEcoMode();
 
-  // Load product data from localProducts
+  // Fetch product data from API
   function fetchProductData() {
-    setLoading(true);
-    try {
-      const dataWithEco = localProducts.map((item) => ({
-        ...item,
-        ecoRating: getAssumedEcoRating(item.id),
-      }));
-      setPosts(dataWithEco);
-    } catch (error) {
-      console.error("Error loading local data:", error);
-      setPosts([]);
-    }
-    setLoading(false);
-  }
+  setLoading(true);
+  const data = products.map((item) => ({
+    ...item,
+    ecoRating: getAssumedEcoRating(item.id),
+  }));
+  setPosts(data);
+  setLoading(false);
+}
 
   useEffect(() => {
     fetchProductData();
@@ -66,15 +59,15 @@ export default function Home() {
     >
       <HeroBanner />
 
-      <div className="max-w-6xl mx-auto px-2 sm:px-4 py-4 sm:py-6">
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-gray-800 text-center sm:text-left">
+      <div className="max-w-6xl mx-auto px-4 py-6">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">
           Shop the Latest
         </h2>
 
         {loading ? (
           <Spinner />
         ) : filteredPosts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8">
+          <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {filteredPosts.map((post) => (
               <Product key={post.id} post={post} />
             ))}
@@ -90,4 +83,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default Home;
